@@ -4,13 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// ReactDOM.render(
-//   <Router>
-//       <Route path="/" component={Homepage} />
-//   </Router>,
-//   document.getElementById('root')
-// );
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
