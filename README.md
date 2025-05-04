@@ -1,56 +1,43 @@
-# [Autocross Course Designer](https://www.autocrosscoursedesign.com/)
+# Autocross Course Designer
 
-A web application for designing, sharing, and voting on autocross courses.
+A web application for designing, sharing, and voting on autocross courses for club events.
 
 ## Overview
 
-Autocross Course Designer is a platform that helps autocross enthusiasts and event organizers design and collaborate on course layouts. The application allows users to create courses within venue boundaries, share designs with club members, and vote on preferred layouts for upcoming events.
+Autocross Course Designer is a tool that allows autocross enthusiasts to:
+
+- Design courses using an intuitive interface
+- Share course designs with club members
+- Vote on course designs for upcoming events
+- Manage venue information and course elements
 
 ## Features
 
-### For Club Members
+### Course Design
 
-- **Course Design**
-  - Upload venue images or use Google Maps integration
-  - Draw courses within predefined venue boundaries
-  - Place standard autocross elements (slaloms, chicanes, etc.)
-  - Create custom course elements with freehand drawing
-  - Set start and finish points
-  - Track cone count to ensure it stays within club limits
+- **Venue Management**: Upload aerial images of venues and define boundaries
+- **Course Drawing**: Create course layouts with intuitive drawing tools
+- **Element Placement**: Add cones, slaloms, and other course elements
+- **Customizable Elements**: Define properties for each element type:
+  - Chicago Box - entry/exit width, box dimensions
+  - Slalom - cone count, spacing, variable spacing, offset
+  - Crossover Box - size
+  - Pointer Cones - count, direction, placement
+  - And more...
 
-- **Course Sharing & Voting**
-  - Save and share course designs with club members
-  - Browse courses created by other members
-  - Vote on favorite course designs
-  - Comment and provide feedback on courses
+### Collaboration
 
-### For Club Administrators
+- Share course designs with club members
+- Vote on favorite designs
+- Comment and provide feedback
+- Save drafts and edit later
 
-- **Venue Management**
-  - Define venue boundaries for members to use
-  - Set available cone count limits
-  - Approve or modify submitted course designs
-  - Schedule courses for upcoming events
+### Administration
 
-### Advanced Features (Planned)
-
-- **AI Course Suggestions**
-  - Get AI-generated course ideas based on venue constraints
-  - Receive optimization suggestions for existing courses
-  - Generate variations of popular course layouts
-
-- **Course Analysis**
-  - Estimate average speeds and times
-  - Identify potential safety concerns
-  - Analyze course flow and technical difficulty
-
-## Technical Implementation
-
-- Built with React 19 and modern JavaScript
-- AWS Amplify for backend services and hosting
-- Interactive canvas-based drawing tools
-- Google Maps API integration for venue selection
-- User authentication and role-based permissions
+- Admin tools for club management
+- Venue preset management
+- Course approval workflow
+- Event scheduling
 
 ## Getting Started
 
@@ -61,23 +48,37 @@ Autocross Course Designer is a platform that helps autocross enthusiasts and eve
 
 ### Installation
 
-1. Clone the repository
+1. Clone the repository:
    ```
    git clone https://github.com/yourusername/autocross-course-design.git
-   cd autocross-course-design
    ```
 
-2. Install dependencies
+2. Install dependencies:
    ```
+   cd autocross-course-design
    npm install
    ```
 
-3. Start the development server
+3. Start the development server:
    ```
    npm start
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+4. Open your browser and navigate to `http://localhost:3000`
+
+## Project Structure
+
+- `/src` - Source code
+  - `/components` - React components
+  - `/pages` - Page components
+  - `/styles` - CSS files
+  - `/utils` - Utility functions
+  - `/hooks` - Custom React hooks
+  - `/context` - React context providers
+
+## Development Roadmap
+
+See [ROADMAP.md](ROADMAP.md) for the detailed development plan.
 
 ## Contributing
 
@@ -86,3 +87,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Thanks to all the autocross enthusiasts who provided feedback and ideas
+- Special thanks to the open source community for the amazing tools that made this project possible

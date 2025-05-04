@@ -39,6 +39,9 @@ function VenueSelector({ onVenueSelected }) {
     onVenueSelected(venue);
   };
   
+  // Check if the venue is ready to be saved
+  const isVenueReady = image && boundaries.length > 0 && venueName.trim() !== '';
+  
   return (
     <div className="venue-selector">
       <h2>Select Venue</h2>
@@ -50,7 +53,17 @@ function VenueSelector({ onVenueSelected }) {
         </div>
       ) : (
         <div className="venue-editor-section">
+          <div className="boundary-editor-container">
+            <p>Draw the boundaries of your venue:</p>
+            <BoundaryEditor 
+              image={image} 
+              boundaries={boundaries}
+              onBoundaryUpdate={handleBoundaryUpdate} 
+            />
+          </div>
+          
           <div className="venue-info">
+            <h3>Venue Details</h3>
             <div className="form-group">
               <label htmlFor="venue-name">Venue Name:</label>
               <input 
@@ -59,7 +72,9 @@ function VenueSelector({ onVenueSelected }) {
                 value={venueName} 
                 onChange={(e) => setVenueName(e.target.value)}
                 placeholder="Enter venue name"
+                className={venueName ? 'valid-input' : ''}
               />
+              {!venueName && <div className="input-hint">Required</div>}
             </div>
             
             <div className="form-group">
@@ -73,29 +88,37 @@ function VenueSelector({ onVenueSelected }) {
               />
             </div>
             
-            <button 
-              className="button-primary" 
-              onClick={handleSaveVenue}
-              disabled={!image || boundaries.length === 0 || !venueName}
-            >
-              Save Venue
-            </button>
+            <div className="venue-actions">
+              <button 
+                className="button-secondary" 
+                onClick={() => setImage(null)}
+              >
+                Upload Different Image
+              </button>
+              
+              <button 
+                className={`button-save ${isVenueReady ? 'ready' : ''}`}
+                onClick={handleSaveVenue}
+                disabled={!isVenueReady}
+              >
+                {isVenueReady ? 'Save Venue & Continue' : 'Complete Required Fields'}
+              </button>
+            </div>
             
-            <button 
-              className="button-secondary" 
-              onClick={() => setImage(null)}
-            >
-              Upload Different Image
-            </button>
-          </div>
-          
-          <div className="boundary-editor-container">
-            <p>Draw the boundaries of your venue:</p>
-            <BoundaryEditor 
-              image={image} 
-              boundaries={boundaries}
-              onBoundaryUpdate={handleBoundaryUpdate} 
-            />
+            <div className="venue-status">
+              <h4>Completion Status:</h4>
+              <ul className="status-list">
+                <li className={image ? 'completed' : ''}>
+                  {image ? '✓' : '○'} Upload venue image
+                </li>
+                <li className={boundaries.length > 0 ? 'completed' : ''}>
+                  {boundaries.length > 0 ? '✓' : '○'} Draw venue boundaries
+                </li>
+                <li className={venueName ? 'completed' : ''}>
+                  {venueName ? '✓' : '○'} Enter venue name
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       )}

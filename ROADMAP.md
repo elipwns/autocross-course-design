@@ -6,10 +6,10 @@ This document outlines the development plan and feature roadmap for the Autocros
 
 ### Course Design Interface
 - [x] Basic page structure and navigation
-- [ ] Canvas-based drawing implementation
-- [ ] Image upload functionality
-- [ ] Basic drawing tools (lines, curves)
-- [ ] Start/finish point placement
+- [x] Canvas-based drawing implementation
+- [x] Image upload functionality
+- [x] Basic drawing tools (lines, curves)
+- [x] Start/finish point placement
 
 ### User Management
 - [ ] Basic authentication (login/register)
@@ -19,19 +19,25 @@ This document outlines the development plan and feature roadmap for the Autocros
 ## Phase 2: Enhanced Design Features
 
 ### Venue Management
+- [x] Boundary line drawing and saving
+- [x] Venue information storage
 - [ ] Google Maps integration
-- [ ] Boundary line drawing and saving
-- [ ] Venue information storage
 - [ ] Venue sharing between club members
 - [ ] **Hazard marking for admins** (light poles, fences, walls)
+- [ ] **Preset venues for admins to add and share**
 
 ### Course Elements
-- [ ] Predefined autocross elements library
-  - [ ] Slaloms
-  - [ ] Chicago boxes
-  - [ ] Hairpins
-  - [ ] Sweepers
-- [ ] Drag-and-drop element placement
+- [x] Element definitions with customizable properties
+  - [x] Chicago Box - defined by entry/exit width, box length/width
+  - [x] Slalom - defined by cone count, spacing, variable spacing, offset
+  - [x] Crossover Box - defined by size
+  - [x] Pointer Cones - defined by count, direction, placement
+  - [x] Gate - defined by width
+  - [x] Chicane - defined by gate count, width, spacing, offset
+  - [x] Sweeper - defined by radius, angle, cone spacing
+  - [x] Offset Slalom - defined by sections, cones per section, spacing, offset
+  - [x] Lane Change - defined by width, length, lane count
+- [ ] Element placement on course
 - [ ] Element rotation and scaling
 - [ ] Cone counting functionality
 
@@ -42,6 +48,8 @@ This document outlines the development plan and feature roadmap for the Autocros
 - [ ] Browse courses by venue or creator
 - [ ] Course preview functionality
 - [ ] Course metadata (difficulty, style, etc.)
+- [ ] **Draft saving and editing**
+- [ ] **Course copying and modification**
 
 ### Voting System
 - [ ] Upvote/downvote functionality
@@ -56,6 +64,8 @@ This document outlines the development plan and feature roadmap for the Autocros
 - [ ] Member management
 - [ ] Course approval workflow
 - [ ] Event scheduling
+- [ ] **Super admin capabilities**
+- [ ] **Venue presets management**
 
 ### Resource Management
 - [ ] Cone inventory tracking
