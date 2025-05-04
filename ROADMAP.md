@@ -23,6 +23,7 @@ This document outlines the development plan and feature roadmap for the Autocros
 - [ ] Boundary line drawing and saving
 - [ ] Venue information storage
 - [ ] Venue sharing between club members
+- [ ] **Hazard marking for admins** (light poles, fences, walls)
 
 ### Course Elements
 - [ ] Predefined autocross elements library
@@ -60,6 +61,7 @@ This document outlines the development plan and feature roadmap for the Autocros
 - [ ] Cone inventory tracking
 - [ ] Venue availability calendar
 - [ ] Equipment requirements calculator
+- [ ] **Hazard management and safety checks**
 
 ## Phase 5: Advanced Features
 
