@@ -1,0 +1,146 @@
+/* Element Properties Styles */
+
+.element-properties-panel {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.element-properties-panel h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.element-description {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #666;
+  font-style: italic;
+}
+
+.no-element-message {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.properties-list {
+  margin-bottom: 20px;
+}
+
+.property-item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.property-item:last-child {
+  border-bottom: none;
+}
+
+.property-header {
+  margin-bottom: 10px;
+}
+
+.property-header h4 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+}
+
+.property-hint {
+  color: #666;
+  font-size: 12px;
+  display: block;
+}
+
+.property-input {
+  margin-top: 10px;
+}
+
+.number-input input[type="range"] {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.value-display {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}
+
+.select-input select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.boolean-input label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.boolean-input input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.angle-input {
+  position: relative;
+}
+
+.angle-input input[type="range"] {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.element-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Element Preview */
+.element-preview {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Element Properties Form */
+.element-properties-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .element-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .element-actions button {
+    width: 100%;
+  }
+}

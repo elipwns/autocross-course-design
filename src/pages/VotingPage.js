@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
-export function Voting() {
+/**
+ * VotingPage component - Page for voting on course designs
+ */
+function VotingPage() {
   const [courses, setCourses] = useState([
     { id: 1, name: 'Summer Slalom', votes: 0, description: 'A technical course with tight turns' },
     { id: 2, name: 'Speed Challenge', votes: 0, description: 'Fast course with long straights' },
@@ -14,7 +17,7 @@ export function Voting() {
   };
 
   return (
-    <div className="voting-container">
+    <div className="voting-page">
       <h1>Vote for Your Favorite Course</h1>
       <p>Browse through the community-designed autocross courses and vote for your favorites!</p>
       
@@ -36,4 +39,4 @@ export function Voting() {
   );
 }
 
-export default Voting;
+export default VotingPage;
