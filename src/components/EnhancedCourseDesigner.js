@@ -306,8 +306,6 @@ function EnhancedCourseDesigner({ venue, onCourseComplete }) {
   useEffect(() => {
     if (!canvasRef.current || !venue || !venue.image) return;
     
-    const canvas = canvasRef.current;
-    
     // Load the image
     const img = new Image();
     img.src = venue.image;
