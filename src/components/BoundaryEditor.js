@@ -7,73 +7,17 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 function BoundaryEditor({ image, boundaries, onBoundaryUpdate }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
-  // Removed unused state variables
   const [currentBoundary, setCurrentBoundary] = useState([]);
   const [allBoundaries, setAllBoundaries] = useState(boundaries || []);
   const [canvasSize] = useState({ width: 800, height: 600 });
-  // Removed unused imageSize state
+  // Scale is used in coordinate conversion and redrawing
   const [scale, setScale] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const [lastPanPoint, setLastPanPoint] = useState(null);
   const [zoom, setZoom] = useState(1);
   
-  // Initialize canvas when component mounts or image changes
-  useEffect(() => {
-    if (!canvasRef.current || !image) return;
-    
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    
-    // Load the image
-    const img = new Image();
-    img.src = image;
-    img.onload = () => {
-      // Reset view to fit the image
-      resetView(img);
-    };
-  }, [image]);
-  
-  // Reset view to fit the entire image
-  const resetView = useCallback((img) => {
-    if (!canvasRef.current || !img) return;
-    
-    const canvas = canvasRef.current;
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
-    
-    // Calculate scaling to fit image within canvas while maintaining aspect ratio
-    const imgScale = Math.min(
-      canvasWidth / img.width,
-      canvasHeight / img.height
-    );
-    
-    // Set initial zoom to fit the image
-    setZoom(imgScale);
-    
-    // Center the image on the canvas
-    const scaledWidth = img.width * imgScale;
-    const scaledHeight = img.height * imgScale;
-    
-    const offsetX = (canvasWidth - scaledWidth) / 2;
-    const offsetY = (canvasHeight - scaledHeight) / 2;
-    
-    // Store these values for coordinate conversion
-    setScale(imgScale);
-    setOffset({ x: offsetX, y: offsetY });
-    
-    // Redraw everything
-    redrawCanvas(img, offsetX, offsetY, imgScale);
-  }, []);
-  
-  // Update boundaries when they change externally
-  useEffect(() => {
-    if (JSON.stringify(boundaries) !== JSON.stringify(allBoundaries)) {
-      setAllBoundaries(boundaries || []);
-    }
-  }, [boundaries, allBoundaries]);
-  
-  // Function to redraw the entire canvas
+  // Function to redraw the entire canvas - defined before it's used
   const redrawCanvas = useCallback((img, offsetX, offsetY, currentZoom) => {
     if (!canvasRef.current) return;
     
@@ -156,6 +100,62 @@ function BoundaryEditor({ image, boundaries, onBoundaryUpdate }) {
       });
     }
   }, [allBoundaries, currentBoundary]);
+
+  // Reset view to fit the entire image - defined after redrawCanvas
+  const resetView = useCallback((img) => {
+    if (!canvasRef.current || !img) return;
+    
+    const canvas = canvasRef.current;
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    
+    // Calculate scaling to fit image within canvas while maintaining aspect ratio
+    const imgScale = Math.min(
+      canvasWidth / img.width,
+      canvasHeight / img.height
+    );
+    
+    // Set initial zoom to fit the image
+    setZoom(imgScale);
+    
+    // Center the image on the canvas
+    const scaledWidth = img.width * imgScale;
+    const scaledHeight = img.height * imgScale;
+    
+    const offsetX = (canvasWidth - scaledWidth) / 2;
+    const offsetY = (canvasHeight - scaledHeight) / 2;
+    
+    // Store these values for coordinate conversion
+    setScale(imgScale);
+    setOffset({ x: offsetX, y: offsetY });
+    
+    // Redraw everything
+    redrawCanvas(img, offsetX, offsetY, imgScale);
+  }, [redrawCanvas]);
+  
+  // Initialize canvas when component mounts or image changes
+  useEffect(() => {
+    if (!canvasRef.current || !image) return;
+    
+    const canvas = canvasRef.current;
+    // ctx is used indirectly through resetView and redrawCanvas
+    const ctx = canvas.getContext('2d');
+    
+    // Load the image
+    const img = new Image();
+    img.src = image;
+    img.onload = () => {
+      // Reset view to fit the image
+      resetView(img);
+    };
+  }, [image, resetView]);
+  
+  // Update boundaries when they change externally
+  useEffect(() => {
+    if (JSON.stringify(boundaries) !== JSON.stringify(allBoundaries)) {
+      setAllBoundaries(boundaries || []);
+    }
+  }, [boundaries, allBoundaries]);
   
   // Draw all boundaries whenever they change
   useEffect(() => {

@@ -1,18 +1,28 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './styles/index.css';
-import './styles/CourseDesignEnhanced.css';
+import { createRoot } from 'react-dom/client';
+import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { Amplify } from 'aws-amplify';
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito';
+import awsConfig from './aws-config';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+// Configure Amplify with your backend resources
+Amplify.configure(awsConfig);
+
+// Configure token signing for Cognito
+cognitoUserPoolsTokenProvider.setKeyValueStorage({
+  getItem: (key) => localStorage.getItem(key),
+  setItem: (key, value) => localStorage.setItem(key, value),
+  removeItem: (key) => localStorage.removeItem(key),
+});
+
+// React 19 way
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// If you had reportWebVitals or other code here, it should be preserved
