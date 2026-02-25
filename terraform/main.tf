@@ -1,5 +1,14 @@
 provider "aws" {
   region = var.aws_region
+  
+  default_tags {
+    tags = {
+      ManagedBy     = "Terraform"
+      Project       = "autocross-course-design"
+      TerraformRepo = "github.com/elipwns/autocross-course-design"
+      Environment   = var.environment
+    }
+  }
 }
 
 terraform {
