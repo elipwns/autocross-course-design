@@ -3,6 +3,7 @@ type Course {
   name: String!
   description: String
   venueId: ID!
+  eventId: ID
   courseLines: [AWSJSON]!
   startPoint: AWSJSON!
   finishPoint: AWSJSON!
@@ -23,17 +24,41 @@ type Venue {
   id: ID!
   name: String!
   description: String
-  imageKey: String!
+  imageKey: String
+  centerLat: Float
+  centerLng: Float
   boundaries: [AWSJSON]!
   isPreset: Boolean
   owner: String!
 }
 
+type Event {
+  id: ID!
+  name: String!
+  date: AWSDate!
+  description: String
+  venueId: ID!
+  status: String
+  owner: String!
+  createdAt: AWSDateTime
+}
+
+type Vote {
+  id: ID!
+  courseId: ID!
+  eventId: ID!
+  userId: String!
+  createdAt: AWSDateTime
+}
+
 type Query {
   getCourse(id: ID!): Course
   listCourses(filter: CourseFilterInput, limit: Int, nextToken: String): CourseConnection
+  listCoursesByEvent(eventId: ID!, limit: Int, nextToken: String): CourseConnection
   getVenue(id: ID!): Venue
   listVenues(filter: VenueFilterInput, limit: Int, nextToken: String): VenueConnection
+  getEvent(id: ID!): Event
+  listEvents(limit: Int, nextToken: String): EventConnection
 }
 
 type Mutation {
@@ -43,6 +68,10 @@ type Mutation {
   createVenue(input: CreateVenueInput!): Venue
   updateVenue(input: UpdateVenueInput!): Venue
   deleteVenue(input: DeleteVenueInput!): Venue
+  createEvent(input: CreateEventInput!): Event
+  deleteEvent(input: DeleteEventInput!): Event
+  createVote(input: CreateVoteInput!): Vote
+  deleteVote(input: DeleteVoteInput!): Vote
 }
 
 input CourseFilterInput {
@@ -50,6 +79,7 @@ input CourseFilterInput {
   name: StringFilterInput
   owner: StringFilterInput
   venueId: IDFilterInput
+  eventId: IDFilterInput
   isDraft: BooleanFilterInput
   isPublic: BooleanFilterInput
 }
@@ -86,6 +116,7 @@ input CreateCourseInput {
   name: String!
   description: String
   venueId: ID!
+  eventId: ID
   courseLines: [AWSJSON]!
   startPoint: AWSJSON!
   finishPoint: AWSJSON!
@@ -104,6 +135,7 @@ input UpdateCourseInput {
   id: ID!
   name: String
   description: String
+  eventId: ID
   courseLines: [AWSJSON]
   startPoint: AWSJSON
   finishPoint: AWSJSON
@@ -124,7 +156,9 @@ input DeleteCourseInput {
 input CreateVenueInput {
   name: String!
   description: String
-  imageKey: String!
+  imageKey: String
+  centerLat: Float
+  centerLng: Float
   boundaries: [AWSJSON]!
   isPreset: Boolean
   owner: String!
@@ -135,11 +169,36 @@ input UpdateVenueInput {
   name: String
   description: String
   imageKey: String
+  centerLat: Float
+  centerLng: Float
   boundaries: [AWSJSON]
   isPreset: Boolean
 }
 
 input DeleteVenueInput {
+  id: ID!
+}
+
+input CreateEventInput {
+  name: String!
+  date: AWSDate!
+  description: String
+  venueId: ID!
+  status: String
+  owner: String!
+}
+
+input DeleteEventInput {
+  id: ID!
+}
+
+input CreateVoteInput {
+  courseId: ID!
+  eventId: ID!
+  userId: String!
+}
+
+input DeleteVoteInput {
   id: ID!
 }
 
@@ -150,6 +209,11 @@ type CourseConnection {
 
 type VenueConnection {
   items: [Venue]
+  nextToken: String
+}
+
+type EventConnection {
+  items: [Event]
   nextToken: String
 }
 

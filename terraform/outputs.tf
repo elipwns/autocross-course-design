@@ -25,13 +25,15 @@ output "s3_bucket_name" {
 
 output "aws_config_js" {
   value = <<EOT
-// Copy this to your src/aws-config.js file
+// src/aws-config.js (Amplify v6 format)
 const awsConfig = {
   Auth: {
-    region: "${var.aws_region}",
-    userPoolId: "${aws_cognito_user_pool.main.id}",
-    userPoolWebClientId: "${aws_cognito_user_pool_client.client.id}",
-    identityPoolId: "${aws_cognito_identity_pool.main.id}",
+    Cognito: {
+      region: "${var.aws_region}",
+      userPoolId: "${aws_cognito_user_pool.main.id}",
+      userPoolClientId: "${aws_cognito_user_pool_client.client.id}",
+      identityPoolId: "${aws_cognito_identity_pool.main.id}",
+    },
   },
   Storage: {
     AWSS3: {
@@ -40,14 +42,15 @@ const awsConfig = {
     }
   },
   API: {
-    graphql_endpoint: "${aws_appsync_graphql_api.main.uris["GRAPHQL"]}",
-    graphql_headers: async () => ({
-      Authorization: (await Auth.currentSession()).getIdToken().getJwtToken()
-    })
+    GraphQL: {
+      endpoint: "${aws_appsync_graphql_api.main.uris["GRAPHQL"]}",
+      region: "${var.aws_region}",
+      defaultAuthMode: "userPool",
+    }
   }
 };
 
 export default awsConfig;
 EOT
-  description = "AWS configuration for your React app"
+  description = "AWS configuration for src/aws-config.js (Amplify v6)"
 }
