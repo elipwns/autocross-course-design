@@ -4,43 +4,73 @@
 .navigation-bar {
   display: flex;
   justify-content: space-between;
-  background-color: #333;
+  align-items: center;
+  background-color: #1a1a1a;
+  padding: 0 24px;
+  height: 52px;
+  border-bottom: 1px solid #333;
+}
+
+.nav-logo a {
   color: white;
-  padding: 10px 20px;
-}
-
-.left {
-  display: flex;
-}
-
-.left .nav-link {
   text-decoration: none;
-  color: white;
-  margin-right: 20px;
-  padding: 5px 0;
-  position: relative;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
-.right .nav-link {
-  text-decoration: none;
-  color: white;
-  margin-left: 20px;
-  padding: 5px 0;
-  position: relative;
-}
-
-.right {
+.nav-links {
   display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.nav-link:hover::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: white;
+.nav-links a {
+  color: #d1d5db;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover {
+  background-color: #2d2d2d;
+  color: white;
+}
+
+.nav-divider {
+  width: 1px;
+  height: 20px;
+  background-color: #444;
+  margin: 0 4px;
+}
+
+.user-greeting {
+  color: #9ca3af;
+  font-size: 0.85rem;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+
+.sign-out-button {
+  background: none;
+  border: 1px solid #555;
+  color: #d1d5db;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.sign-out-button:hover {
+  background-color: #2d2d2d;
+  color: white;
+  border-color: #777;
 }
 
 /* Homepage Styles */

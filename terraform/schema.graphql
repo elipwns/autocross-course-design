@@ -1,0 +1,223 @@
+type Course {
+  id: ID!
+  name: String!
+  description: String
+  venueId: ID!
+  eventId: ID
+  courseLines: [AWSJSON]!
+  startPoint: AWSJSON!
+  finishPoint: AWSJSON!
+  elements: [AWSJSON]!
+  coneCount: Int
+  courseLength: Float
+  notes: String
+  pitLocation: AWSJSON
+  stagingArea: AWSJSON
+  owner: String!
+  isDraft: Boolean
+  isPublic: Boolean
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Venue {
+  id: ID!
+  name: String!
+  description: String
+  imageKey: String
+  centerLat: Float
+  centerLng: Float
+  boundaries: [AWSJSON]!
+  isPreset: Boolean
+  owner: String!
+}
+
+type Event {
+  id: ID!
+  name: String!
+  date: AWSDate!
+  description: String
+  venueId: ID!
+  status: String
+  owner: String!
+  createdAt: AWSDateTime
+}
+
+type Vote {
+  id: ID!
+  courseId: ID!
+  eventId: ID!
+  userId: String!
+  createdAt: AWSDateTime
+}
+
+type Query {
+  getCourse(id: ID!): Course
+  listCourses(filter: CourseFilterInput, limit: Int, nextToken: String): CourseConnection
+  listCoursesByEvent(eventId: ID!, limit: Int, nextToken: String): CourseConnection
+  getVenue(id: ID!): Venue
+  listVenues(filter: VenueFilterInput, limit: Int, nextToken: String): VenueConnection
+  getEvent(id: ID!): Event
+  listEvents(limit: Int, nextToken: String): EventConnection
+}
+
+type Mutation {
+  createCourse(input: CreateCourseInput!): Course
+  updateCourse(input: UpdateCourseInput!): Course
+  deleteCourse(input: DeleteCourseInput!): Course
+  createVenue(input: CreateVenueInput!): Venue
+  updateVenue(input: UpdateVenueInput!): Venue
+  deleteVenue(input: DeleteVenueInput!): Venue
+  createEvent(input: CreateEventInput!): Event
+  deleteEvent(input: DeleteEventInput!): Event
+  createVote(input: CreateVoteInput!): Vote
+  deleteVote(input: DeleteVoteInput!): Vote
+}
+
+input CourseFilterInput {
+  id: IDFilterInput
+  name: StringFilterInput
+  owner: StringFilterInput
+  venueId: IDFilterInput
+  eventId: IDFilterInput
+  isDraft: BooleanFilterInput
+  isPublic: BooleanFilterInput
+}
+
+input VenueFilterInput {
+  id: IDFilterInput
+  name: StringFilterInput
+  owner: StringFilterInput
+  isPreset: BooleanFilterInput
+}
+
+input IDFilterInput {
+  eq: ID
+  ne: ID
+  contains: ID
+  notContains: ID
+  beginsWith: ID
+}
+
+input StringFilterInput {
+  eq: String
+  ne: String
+  contains: String
+  notContains: String
+  beginsWith: String
+}
+
+input BooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input CreateCourseInput {
+  name: String!
+  description: String
+  venueId: ID!
+  eventId: ID
+  courseLines: [AWSJSON]!
+  startPoint: AWSJSON!
+  finishPoint: AWSJSON!
+  elements: [AWSJSON]!
+  coneCount: Int
+  courseLength: Float
+  notes: String
+  pitLocation: AWSJSON
+  stagingArea: AWSJSON
+  owner: String!
+  isDraft: Boolean
+  isPublic: Boolean
+}
+
+input UpdateCourseInput {
+  id: ID!
+  name: String
+  description: String
+  eventId: ID
+  courseLines: [AWSJSON]
+  startPoint: AWSJSON
+  finishPoint: AWSJSON
+  elements: [AWSJSON]
+  coneCount: Int
+  courseLength: Float
+  notes: String
+  pitLocation: AWSJSON
+  stagingArea: AWSJSON
+  isDraft: Boolean
+  isPublic: Boolean
+}
+
+input DeleteCourseInput {
+  id: ID!
+}
+
+input CreateVenueInput {
+  name: String!
+  description: String
+  imageKey: String
+  centerLat: Float
+  centerLng: Float
+  boundaries: [AWSJSON]!
+  isPreset: Boolean
+  owner: String!
+}
+
+input UpdateVenueInput {
+  id: ID!
+  name: String
+  description: String
+  imageKey: String
+  centerLat: Float
+  centerLng: Float
+  boundaries: [AWSJSON]
+  isPreset: Boolean
+}
+
+input DeleteVenueInput {
+  id: ID!
+}
+
+input CreateEventInput {
+  name: String!
+  date: AWSDate!
+  description: String
+  venueId: ID!
+  status: String
+  owner: String!
+}
+
+input DeleteEventInput {
+  id: ID!
+}
+
+input CreateVoteInput {
+  courseId: ID!
+  eventId: ID!
+  userId: String!
+}
+
+input DeleteVoteInput {
+  id: ID!
+}
+
+type CourseConnection {
+  items: [Course]
+  nextToken: String
+}
+
+type VenueConnection {
+  items: [Venue]
+  nextToken: String
+}
+
+type EventConnection {
+  items: [Event]
+  nextToken: String
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
