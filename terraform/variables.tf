@@ -23,3 +23,15 @@ variable "enable_custom_domain" {
   type        = bool
   default     = false
 }
+
+variable "appsync_dynamodb_role_arn" {
+  description = "ARN of the IAM role for AppSync to access DynamoDB (managed in aws-iam-management)"
+  type        = string
+  default     = "arn:aws:iam::772255980793:role/autocross-course-designer-dev-appsync-dynamodb-role"
+}
+
+variable "cognito_authenticated_role_arn" {
+  description = "ARN of the IAM role for Cognito authenticated users (managed in aws-iam-management)"
+  type        = string
+  default     = "arn:aws:iam::772255980793:role/autocross-course-designer-dev-cognito-authenticated-role"
+}

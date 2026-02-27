@@ -64,67 +64,25 @@ resource "aws_cognito_identity_pool" "main" {
   }
 }
 
-# IAM roles for authenticated and unauthenticated users
-resource "aws_iam_role" "authenticated" {
-  name = "${local.resource_prefix}-cognito-authenticated-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Federated = "cognito-identity.amazonaws.com"
-        }
-        Action = "sts:AssumeRoleWithWebIdentity"
-        Condition = {
-          StringEquals = {
-            "cognito-identity.amazonaws.com:aud" = aws_cognito_identity_pool.main.id
-          }
-          "ForAnyValue:StringLike" = {
-            "cognito-identity.amazonaws.com:amr" = "authenticated"
-          }
-        }
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy" "authenticated_policy" {
-  name = "${local.resource_prefix}-authenticated-policy"
-  role = aws_iam_role.authenticated.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject"
-        ]
-        Resource = [
-          "${aws_s3_bucket.venue_images.arn}/*"
-        ]
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:ListBucket"
-        ]
-        Resource = [
-          aws_s3_bucket.venue_images.arn
-        ]
-      }
-    ]
-  })
-}
+# IAM roles are managed in the aws-iam-management repo.
+# Role ARN is passed in via var.cognito_authenticated_role_arn.
 
 resource "aws_cognito_identity_pool_roles_attachment" "main" {
   identity_pool_id = aws_cognito_identity_pool.main.id
 
   roles = {
-    "authenticated" = aws_iam_role.authenticated.arn
+    "authenticated" = var.cognito_authenticated_role_arn
   }
+}
+
+resource "aws_cognito_user_group" "admin" {
+  name         = "Admin"
+  user_pool_id = aws_cognito_user_pool.main.id
+  description  = "Admin users who can create events and venues"
+}
+
+resource "aws_cognito_user_group" "member" {
+  name         = "Member"
+  user_pool_id = aws_cognito_user_pool.main.id
+  description  = "Club members who can design courses and vote"
 }
