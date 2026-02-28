@@ -6,55 +6,59 @@ The goal of Phase 1 is a complete core loop: design a course, save it, retrieve 
 
 ### Course Design Interface
 - [x] Basic page structure and navigation
-- [x] Canvas-based drawing implementation
-- [x] Image upload functionality
-- [x] Basic drawing tools (lines, curves)
-- [x] Start/finish point placement
-- [x] Element definitions with customizable properties
-  - [x] Chicago Box
-  - [x] Slalom
-  - [x] Crossover Box
-  - [x] Pointer Cones
-  - [x] Gate
-  - [x] Chicane
-  - [x] Sweeper
-  - [x] Offset Slalom
-  - [x] Lane Change
+- [x] Mapbox satellite map for course design
+- [x] Venue boundary visible during course design
+- [x] Start/finish gate placement (two-cone gate, ~20ft wide)
+- [x] Gate cones draggable to fine-tune position
+- [x] Individual cone placement
+- [x] Course line drawing (MapboxDraw)
+- [x] Cone count tracked
 
 ### Authentication & Persistence
-- [ ] Basic authentication (login/register) — Amplify/Cognito backend exists, frontend integration needed
-- [ ] Public homepage accessible without sign-in
-- [ ] Fix header displaying user ID hash instead of email/username
+- [x] Authentication — Amplify/Cognito with admin group support
+- [x] User email/username displayed in nav (not ID hash)
 - [x] Save course designs to database
-- [x] Draft saving and editing
-- [x] Courses always tied to an event (fixes voting flow)
+- [x] Draft saving (no event required)
+- [x] Courses tied to an event for voting flow
 - [x] Event status derived from date, not manually set
+
+### Events & Voting
+- [x] Event list with calendar view toggle
+- [x] Admin create/edit/delete events
+- [x] Admin delete submitted courses
+- [x] Vote on courses per event
 
 ## Phase 2: Usable Course Design
 
 The goal of Phase 2 is a tool that produces real, usable course designs.
 
 ### Map-Based Venue Design
-- [x] Boundary line drawing and saving
+- [x] Venue boundary drawing on satellite map
 - [x] Venue information storage
-- [x] Mapbox satellite imagery for venue selection
-- [x] Venue boundary drawing directly on map
-- [x] Course design picks from existing venues (no longer forces new venue creation)
-- [ ] Dedicated venue management page — create/edit/list venues outside of course design flow (admin only)
-- [ ] Hazard/obstacle placeables on venue layer — poles, barriers, walls (admin sets once; used for automated safety checks)
+- [x] Course design picks from existing venues
+- [x] Dedicated venue management page (admin only)
+- [ ] Gate rotation — currently east-west only; need to support arbitrary angle
 - [ ] Admin-locked start/finish gate positions on venue
+- [ ] Hazard/obstacle placeables on venue layer — poles, barriers, walls (admin sets once; used for automated safety checks later)
 - [ ] Preset venues for admins to add and share
-- [ ] Venue sharing between club members
+
+### Pre-Made Element Sets
+`ElementDefinitions.js` exists with data models but nothing is rendered on the map yet. All of these are unbuilt:
+- [ ] Slalom — N cones in a line, configurable spacing
+- [ ] Chicago Box
+- [ ] Crossover Box
+- [ ] Chicane — offset gates
+- [ ] Gate
+- [ ] Finish straight — parallel rows of cones
+- [ ] C-Box
 
 ### Course Design Tools
-- [ ] Element placement on course
-- [ ] Element rotation and scaling
+- [ ] Place element sets on map as a unit (stamp and position)
+- [ ] Element rotation
+- [ ] Course line snap to gate midpoint
 - [ ] Undo/redo
-- [ ] Scale/measurement — real-world distances (feet/meters) for element spacing
-- [ ] Snap-to-grid for precise placement
-- [ ] Cone counting
+- [ ] Real-world distance display (feet/meters between placed cones)
 - [ ] Course annotations: pit location, staging area labels
-- [ ] Text boxes and shaded sections for course notes
 
 ### Output
 - [ ] Export/print course as PDF or image
