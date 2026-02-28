@@ -12,7 +12,8 @@
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
@@ -450,6 +451,49 @@
 .course-save {
   max-width: 600px;
   margin: 0 auto;
+}
+
+/* Venue List */
+.venues-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.venue-card {
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #fafafa;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.venue-card:hover {
+  background-color: #f0f0f0;
+  border-color: #aaa;
+}
+
+.venue-card h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+.venue-card p {
+  margin: 0;
+  color: #555;
+  font-size: 0.875rem;
+}
+
+.preset-badge {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 7px;
+  background-color: #e0e7ff;
+  color: #3730a3;
+  border-radius: 4px;
+  font-size: 0.75rem;
 }
 
 /* Map Container */

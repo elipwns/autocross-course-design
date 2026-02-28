@@ -4,13 +4,13 @@ import { generateClient } from 'aws-amplify/api';
 import { getCurrentUser } from 'aws-amplify/auth';
 import { AuthContext } from '../App';
 import { listCoursesByEvent, getEvent } from '../graphql/queries';
-import { createVote } from '../graphql/mutations';
+import { createVote, deleteCourse } from '../graphql/mutations';
 
 const client = generateClient();
 
 function VotingPage() {
   const { eventId } = useParams();
-  const { user } = useContext(AuthContext);
+  const { user, isAdmin } = useContext(AuthContext);
   const [event, setEvent] = useState(null);
   const [courses, setCourses] = useState([]);
   const [votedCourseId, setVotedCourseId] = useState(null);
@@ -44,18 +44,11 @@ function VotingPage() {
 
   async function handleVote(courseId) {
     if (votedCourseId) return;
-
     try {
       const { username } = await getCurrentUser();
       await client.graphql({
         query: createVote,
-        variables: {
-          input: {
-            courseId,
-            eventId,
-            userId: username,
-          },
-        },
+        variables: { input: { courseId, eventId, userId: username } },
       });
       setVotedCourseId(courseId);
     } catch (err) {
@@ -64,12 +57,23 @@ function VotingPage() {
     }
   }
 
+  async function handleDeleteCourse(courseId) {
+    if (!window.confirm('Remove this course? This cannot be undone.')) return;
+    try {
+      await client.graphql({ query: deleteCourse, variables: { input: { id: courseId } } });
+      setCourses(prev => prev.filter(c => c.id !== courseId));
+    } catch (err) {
+      console.error('Failed to delete course:', err);
+      alert('Failed to remove course.');
+    }
+  }
+
   if (loading) return <div className="loading">Loading courses...</div>;
 
   return (
     <div className="voting-page">
       <h1>{event ? `Vote — ${event.name}` : 'Vote for Your Favorite Course'}</h1>
-      <p>Browse submitted autocross courses and vote for your favorite!</p>
+      <p>Browse submitted courses and vote for your favorite.</p>
 
       {error && <p className="error-message">{error}</p>}
 
@@ -82,15 +86,23 @@ function VotingPage() {
       )}
 
       {votedCourseId && (
-        <div className="vote-confirmation">
-          Your vote has been submitted!
-        </div>
+        <div className="vote-confirmation">Your vote has been submitted!</div>
       )}
 
       <div className="courses-list">
         {courses.map(course => (
           <div key={course.id} className="course-card">
-            <h3>{course.name}</h3>
+            <div className="course-card-header">
+              <h3>{course.name}</h3>
+              {isAdmin && (
+                <button
+                  className="button-danger button-sm"
+                  onClick={() => handleDeleteCourse(course.id)}
+                >
+                  Remove
+                </button>
+              )}
+            </div>
             {course.description && <p>{course.description}</p>}
             <div className="course-meta">
               <span>{course.coneCount ?? 0} cones</span>

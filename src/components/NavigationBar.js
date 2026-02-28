@@ -16,6 +16,7 @@ function NavigationBar() {
         <Link to="/">Events</Link>
         <Link to="/design">Design Course</Link>
         <Link to="/voting">Vote</Link>
+        {isAdmin && <Link to="/venues">Venues</Link>}
         {isAdmin && <Link to="/events/new">+ New Event</Link>}
         {user ? (
           <>

@@ -121,7 +121,8 @@ function MapVenueSelector({ onVenueSelected }) {
       <div ref={mapContainer} className="map-container" />
 
       <div className="map-instructions">
-        <p>Use the polygon tool (top-right of map) to draw the venue boundary. Double-click to finish.</p>
+        <p>Use the polygon tool (top-left of map) to draw the venue boundary. Click to add points, double-click to finish.</p>
+        <p>To adjust vertices after drawing: click the polygon to select it, then drag individual corner points.</p>
         {boundary && <p className="boundary-status">Boundary captured ({boundary.length - 1} points)</p>}
       </div>
 

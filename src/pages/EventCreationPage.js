@@ -17,7 +17,6 @@ function EventCreationPage() {
     date: '',
     description: '',
     venueId: '',
-    status: 'upcoming',
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -53,6 +52,7 @@ function EventCreationPage() {
     setError(null);
     try {
       const { username } = await getCurrentUser();
+      const status = new Date(form.date) >= new Date() ? 'upcoming' : 'completed';
       await client.graphql({
         query: createEvent,
         variables: {
@@ -61,7 +61,7 @@ function EventCreationPage() {
             date: form.date,
             description: form.description || undefined,
             venueId: form.venueId,
-            status: form.status,
+            status,
             owner: username,
           },
         },
@@ -142,14 +142,6 @@ function EventCreationPage() {
               {venues.map(v => (
                 <option key={v.id} value={v.id}>{v.name}</option>
               ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="status">Status</label>
-            <select id="status" name="status" value={form.status} onChange={handleChange}>
-              <option value="upcoming">Upcoming</option>
-              <option value="completed">Completed</option>
             </select>
           </div>
 

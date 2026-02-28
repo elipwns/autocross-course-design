@@ -11,6 +11,7 @@ import EventCalendarPage from './pages/EventCalendarPage';
 import EventCreationPage from './pages/EventCreationPage';
 import VotingPage from './pages/VotingPage';
 import CourseDesignPage from './pages/CourseDesignPage';
+import VenueManagementPage from './pages/VenueManagementPage';
 
 export const AuthContext = createContext(null);
 
@@ -92,6 +93,14 @@ function App({ signOut, user: initialUser }) {
             element={
               <ProtectedRoute>
                 <VotingPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/venues"
+            element={
+              <ProtectedRoute adminOnly>
+                <VenueManagementPage />
               </ProtectedRoute>
             }
           />

@@ -84,6 +84,20 @@ export const createEvent = /* GraphQL */ `
   }
 `;
 
+export const updateEvent = /* GraphQL */ `
+  mutation UpdateEvent($input: UpdateEventInput!) {
+    updateEvent(input: $input) {
+      id
+      name
+      date
+      description
+      venueId
+      status
+      owner
+    }
+  }
+`;
+
 export const deleteEvent = /* GraphQL */ `
   mutation DeleteEvent($input: DeleteEventInput!) {
     deleteEvent(input: $input) {
