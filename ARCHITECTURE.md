@@ -1,178 +1,95 @@
-# Autocross Course Designer - Technical Architecture
+# Autocross Course Designer — Architecture
 
-This document outlines the technical architecture and implementation details for the Autocross Course Designer application.
+## Frontend
 
-## Frontend Architecture
-
-### React Component Structure
+### Component Structure
 
 ```
 App
 ├── NavigationBar
 ├── Routes
 │   ├── Homepage
-│   ├── CourseDesign
-│   │   ├── VenueSelector
-│   │   │   ├── ImageUpload
-│   │   │   └── GoogleMapsIntegration
-│   │   ├── BoundaryEditor
-│   │   ├── CourseEditor
-│   │   │   ├── DrawingCanvas
-│   │   │   ├── ElementLibrary
-│   │   │   └── CourseProperties
-│   │   └── CoursePreview
-│   ├── Voting
-│   │   ├── CourseList
-│   │   ├── CourseCard
-│   │   └── VotingControls
-│   ├── ClubAdmin
-│   │   ├── MemberManagement
-│   │   ├── VenueManagement
-│   │   └── CourseApproval
-│   ├── UserProfile
-│   └── Authentication
-│       ├── Login
-│       └── Register
-└── SharedComponents
-    ├── Modal
-    ├── Notifications
-    └── Footer
+│   ├── CourseDesignPage
+│   │   ├── MapVenueSelector       # Mapbox-based venue selection
+│   │   ├── MapCourseDesigner      # Course drawing on Mapbox map
+│   │   ├── CourseDesigner         # Canvas-based course designer
+│   │   ├── CourseElementsPanel    # Element library sidebar
+│   │   └── ElementPropertiesPanel # Selected element properties
+│   ├── VotingPage
+│   ├── EventCalendarPage
+│   └── EventCreationPage
+└── (shared components to be built)
 ```
 
 ### State Management
-
-- **React Context API**: For global state management
-- **Custom Hooks**: For reusable logic
-- **Local Component State**: For component-specific state
+- React Context API for global state
+- Local component state for UI-specific state
+- No external state library currently
 
 ### Key Technologies
+- **React 19** + **Vite**
+- **React Router v7**
+- **Mapbox GL** + **react-map-gl** — map display, satellite imagery, drawing
+- **@mapbox/mapbox-gl-draw** — boundary and course drawing directly on map
+- **AWS Amplify v6** — auth and backend
 
-- **React 19**: Core UI library
-- **React Router 7**: Navigation and routing
-- **HTML5 Canvas API**: For drawing functionality
-- **CSS Modules**: For component-specific styling
-- **Google Maps API**: For venue selection and mapping
-
-## Backend Architecture (AWS Amplify)
+## Backend (AWS Amplify)
 
 ### Authentication
-
-- **Amazon Cognito**: User authentication and authorization
-- **JWT Tokens**: Secure API access
-- **Role-Based Access Control**: Member vs. Admin permissions
+- Amazon Cognito via Amplify Auth
+- JWT tokens for API access
+- Roles: MEMBER, ADMIN (role-based access not yet enforced in frontend)
 
 ### Data Storage
+- **DynamoDB** (via AppSync/GraphQL): users, clubs, venues, courses, votes
+- **S3**: venue images, course exports, user avatars
 
-- **Amazon DynamoDB**: NoSQL database for application data
-  - Users table
-  - Clubs table
-  - Venues table
-  - Courses table
-  - Votes table
+### API
+- AWS AppSync (GraphQL)
+- Amplify v6 client pattern:
+  ```javascript
+  import { generateClient } from 'aws-amplify/api';
+  const client = generateClient();
+  const result = await client.graphql({ query: createCourse, variables: { input: courseData } });
+  ```
 
-- **Amazon S3**: Storage for images and course files
-  - Venue images
-  - Course exports
-  - User avatars
-
-### API Layer
-
-- **AWS AppSync**: GraphQL API for data operations
-- **AWS Lambda**: Serverless functions for business logic
-  - Course validation
-  - AI suggestions
-  - Image processing
-
-### Serverless Functions
-
-```
-Functions
-├── Authentication
-│   ├── postConfirmation
-│   └── customAuthorizer
-├── Courses
-│   ├── createCourse
-│   ├── updateCourse
-│   ├── validateCourse
-│   └── generateCoursePDF
-├── Venues
-│   ├── processVenueImage
-│   └── extractBoundaries
-├── Voting
-│   ├── submitVote
-│   └── calculateResults
-└── AI
-    ├── suggestCourse
-    └── analyzeCourse
-```
+### Lambda Functions (planned)
+- Course validation
+- PDF export generation
+- AI course suggestions
 
 ## Data Models
 
 ### User
-
 ```json
 {
   "id": "string",
-  "username": "string",
   "email": "string",
   "name": "string",
-  "role": "enum(MEMBER, ADMIN)",
+  "role": "MEMBER | ADMIN",
   "clubId": "string",
-  "preferences": {
-    "favoriteElements": ["string"],
-    "designStyle": "string"
-  },
-  "createdAt": "timestamp",
-  "updatedAt": "timestamp"
-}
-```
-
-### Club
-
-```json
-{
-  "id": "string",
-  "name": "string",
-  "description": "string",
-  "adminIds": ["string"],
-  "memberIds": ["string"],
-  "resources": {
-    "coneCount": "number",
-    "equipment": ["string"]
-  },
-  "venues": ["string"],
-  "createdAt": "timestamp",
-  "updatedAt": "timestamp"
+  "createdAt": "timestamp"
 }
 ```
 
 ### Venue
-
 ```json
 {
   "id": "string",
   "name": "string",
-  "location": {
-    "lat": "number",
-    "lng": "number"
-  },
-  "boundaries": ["array of coordinates"],
-  "surface": "string",
-  "size": "number",
-  "imageUrl": "string",
+  "location": { "lat": "number", "lng": "number" },
+  "boundaries": ["array of lat/lng coordinates"],
+  "hazards": ["array of marked obstacles"],
   "clubId": "string",
-  "createdAt": "timestamp",
-  "updatedAt": "timestamp"
+  "imageUrl": "string"
 }
 ```
 
 ### Course
-
 ```json
 {
   "id": "string",
   "name": "string",
-  "description": "string",
   "venueId": "string",
   "creatorId": "string",
   "elements": [
@@ -186,47 +103,25 @@ Functions
   "startPosition": { "x": "number", "y": "number" },
   "finishPosition": { "x": "number", "y": "number" },
   "coneCount": "number",
-  "length": "number",
-  "difficulty": "number",
-  "status": "enum(DRAFT, SUBMITTED, APPROVED, REJECTED)",
-  "votes": "number",
-  "createdAt": "timestamp",
-  "updatedAt": "timestamp"
+  "status": "DRAFT | SUBMITTED | APPROVED | REJECTED",
+  "eventId": "string"
 }
 ```
 
-## Integration Points
+### Club
+```json
+{
+  "id": "string",
+  "name": "string",
+  "adminIds": ["string"],
+  "memberIds": ["string"],
+  "venueIds": ["string"],
+  "resources": { "coneCount": "number" }
+}
+```
 
-### Google Maps API
-- Venue selection
-- Coordinate mapping
-- Distance calculations
+## Deployment
 
-### AWS Services
-- Authentication (Cognito)
-- Storage (S3)
-- Database (DynamoDB)
-- API (AppSync/GraphQL)
-- Functions (Lambda)
-- Hosting (Amplify)
-
-### Future AI Integration
-- OpenAI API for course suggestions
-- Custom ML models for course analysis
-
-## Deployment Strategy
-
-### CI/CD Pipeline
-- GitHub integration
-- Automated testing
-- Staged deployments (dev, test, prod)
-
-### Environment Configuration
-- Environment variables for API keys
-- Feature flags for gradual rollout
-- A/B testing capabilities
-
-### Monitoring
-- Error tracking
-- Performance monitoring
-- Usage analytics
+- Hosting: AWS Amplify Hosting (CI/CD via GitHub integration)
+- Environments: dev → prod
+- Config: environment variables for Mapbox token, Amplify config
