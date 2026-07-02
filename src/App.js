@@ -6,12 +6,17 @@ import '@aws-amplify/ui-react/styles.css';
 import { useEffect, useState } from 'react';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import { createContext, useContext } from 'react';
+import { deriveIsAdmin } from './utils/geomath';
 import NavigationBar from './components/NavigationBar';
 import EventCalendarPage from './pages/EventCalendarPage';
 import EventCreationPage from './pages/EventCreationPage';
+import EventEditPage from './pages/EventEditPage';
 import VotingPage from './pages/VotingPage';
 import CourseDesignPage from './pages/CourseDesignPage';
+import CourseDetailPage from './pages/CourseDetailPage';
+import CourseExportPage from './pages/CourseExportPage';
 import VenueManagementPage from './pages/VenueManagementPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 export const AuthContext = createContext(null);
 
@@ -38,8 +43,9 @@ function App({ signOut, user: initialUser }) {
 
         const session = await fetchAuthSession();
         const groups = session.tokens?.idToken?.payload?.['cognito:groups'] ?? [];
-        setIsAdmin(groups.includes('Admin'));
+        setIsAdmin(deriveIsAdmin(groups));
       } catch (err) {
+        console.error('Failed to check user session:', err);
         setUser(null);
         setIsAdmin(false);
       } finally {
@@ -65,6 +71,14 @@ function App({ signOut, user: initialUser }) {
             }
           />
           <Route
+            path="/events/:id/edit"
+            element={
+              <ProtectedRoute adminOnly>
+                <EventEditPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/design/:eventId"
             element={
               <ProtectedRoute>
@@ -77,6 +91,22 @@ function App({ signOut, user: initialUser }) {
             element={
               <ProtectedRoute>
                 <CourseDesignPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/courses/:id"
+            element={
+              <ProtectedRoute>
+                <CourseDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/courses/:id/export"
+            element={
+              <ProtectedRoute>
+                <CourseExportPage />
               </ProtectedRoute>
             }
           />
@@ -104,6 +134,7 @@ function App({ signOut, user: initialUser }) {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </AuthContext.Provider>

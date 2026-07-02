@@ -105,8 +105,8 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
     - _Requirements: 11.6, 11.10; Validates: design Properties 4, 5, 13_
 
 
-- [ ] 5. Implement `src/utils/elementRenderer.js` — GPS cone position computation for all 9 element types
-  - [ ] 5.1 Write `elementRenderer.js` — core helper and Slalom / Gate
+- [x] 5. Implement `src/utils/elementRenderer.js` — GPS cone position computation for all 9 element types
+  - [x] 5.1 Write `elementRenderer.js` — core helper and Slalom / Gate
     - Import `feetToMeters`, `metersToLatOffset`, `metersToLngOffset` from `geomath.js`
     - Implement internal `displace(origin, bearingDeg, distanceMeters)` (or re-export from geomath)
     - Implement `computeElementCones(elementType, params, center, angleDeg)` dispatch function
@@ -122,7 +122,7 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
     - **Property 7 (Gate)**: `computeElementCones('gate', {width: W}, c, θ)` returns exactly 2
       cones whose Haversine distance equals `feetToMeters(W)` ±0.01m
     - _Requirements: 8.7, 8.12; Validates: design Properties 6, 7_
-  - [ ] 5.3 Implement remaining 7 element types in `elementRenderer.js`
+  - [x] 5.3 Implement remaining 7 element types in `elementRenderer.js`
     - **Chicane**: gateCount (2–4), gateWidth, gateSpacing, offsetDistance; alternating lateral offset
     - **Chicago Box**: entryWidth, exitWidth, boxLength, boxWidth; 4 corners + 2 gate pairs = 8 cones
     - **Crossover Box**: boxSize; 4 corner cones at ±(boxSize/2) in both axes, rotated by angleDeg
@@ -215,8 +215,8 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
     - _Requirements: 5.4, 12.2, 12.3, 13.8_
 
 
-- [ ] 9. Refactor `src/App.js` — routing, auth context, and role derivation
-  - [ ] 9.1 Fix admin group name check and add new routes
+- [x] 9. Refactor `src/App.js` — routing, auth context, and role derivation
+  - [x] 9.1 Fix admin group name check and add new routes
     - Fix `groups.includes('Admin')` → `groups.includes('admins')` using `deriveIsAdmin` from
       `geomath.js` (current code uses wrong casing per Req 1.8)
     - Add routes: `/events/:id/edit` → `EventEditPage` (admin-only), `/courses/:id` →
@@ -226,7 +226,7 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
       implemented in later tasks
     - Add `isAdmin` to `AuthContext` value; ensure `signOut` clears session and redirects
     - _Requirements: 1.7, 1.8, 2.8, 16.5, 16.6_
-  - [ ] 9.2 Update `src/components/NavigationBar.js`
+  - [x] 9.2 Update `src/components/NavigationBar.js`
     - Replace display name derivation with robust fallback chain:
       `user?.attributes?.name ?? user?.signInDetails?.loginId?.split('@')[0] ?? user?.username`
     - Add `/venues` link conditional on `isAdmin` (already exists, confirm it works)
@@ -467,7 +467,7 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
 
 
 - [ ] 21. Create `src/pages/NotFoundPage.js`
-  - [ ] 21.1 Implement `NotFoundPage.js`
+  - [x] 21.1 Implement `NotFoundPage.js`
     - Render a simple 404 page with a heading "Page Not Found", a brief message, and a link back
       to the Events page (`/`)
     - No GraphQL calls; no auth dependency

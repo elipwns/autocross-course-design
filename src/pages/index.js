@@ -1,5 +1,9 @@
 export { default as EventCalendarPage } from './EventCalendarPage';
 export { default as EventCreationPage } from './EventCreationPage';
+export { default as EventEditPage } from './EventEditPage';
 export { default as VotingPage } from './VotingPage';
 export { default as CourseDesignPage } from './CourseDesignPage';
+export { default as CourseDetailPage } from './CourseDetailPage';
+export { default as CourseExportPage } from './CourseExportPage';
 export { default as VenueManagementPage } from './VenueManagementPage';
+export { default as NotFoundPage } from './NotFoundPage';

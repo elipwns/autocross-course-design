@@ -3,9 +3,27 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../App';
 
 function NavigationBar() {
-  const { user, isAdmin, signOut } = useContext(AuthContext);
+  const auth = useContext(AuthContext);
+  const user = auth?.user;
+  const isAdmin = auth?.isAdmin;
+  const signOut = auth?.signOut;
+  const isLoading = auth?.isLoading;
 
-  const displayName = user?.signInDetails?.loginId?.split('@')[0] ?? user?.username;
+  // Robust display name fallback chain
+  const displayName =
+    user?.attributes?.name ??
+    user?.signInDetails?.loginId?.split('@')[0] ??
+    user?.username;
+
+  if (isLoading) {
+    return (
+      <nav className="navigation-bar">
+        <div className="nav-logo">
+          <Link to="/">Autocross Course Designer</Link>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav className="navigation-bar">
@@ -15,7 +33,6 @@ function NavigationBar() {
       <div className="nav-links">
         <Link to="/">Events</Link>
         <Link to="/design">Design Course</Link>
-        <Link to="/voting">Vote</Link>
         {isAdmin && <Link to="/venues">Venues</Link>}
         {isAdmin && <Link to="/events/new">+ New Event</Link>}
         {user ? (
