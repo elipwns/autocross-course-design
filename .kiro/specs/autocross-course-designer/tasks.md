@@ -14,14 +14,14 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
 
 ## Tasks
 
-- [ ] 1. Project setup: add dependencies and remove dead code
-  - [ ] 1.1 Add fast-check, jspdf, and vitest/test dependencies
+- [x] 1. Project setup: add dependencies and remove dead code
+  - [x] 1.1 Add fast-check, jspdf, and vitest/test dependencies
     - In `package.json`, add `fast-check` as a devDependency and `jspdf` as a production dependency
     - Also add `vitest`, `@vitest/ui`, `jsdom`, and `@testing-library/react` as devDependencies if
       not already present; confirm `vite.config.js` has a `test` block pointing at jsdom
     - Run `npm install` to confirm no resolution errors
     - _Requirements: 15.3 (jsPDF for PDF export), design testing strategy_
-  - [ ] 1.2 Delete dead canvas-based components
+  - [x] 1.2 Delete dead canvas-based components
     - Verify `src/components/CourseDesigner.js` has no live imports (check `src/components/index.js`
       and all pages — it is exported from index.js; remove that export line first)
     - Delete `src/components/CourseDesigner.js`
@@ -31,8 +31,8 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
     - _Requirements: Design §"Files to delete"_
 
 
-- [ ] 2. Implement `src/utils/geomath.js` — pure geospatial helpers
-  - [ ] 2.1 Write `geomath.js` with all pure functions
+- [x] 2. Implement `src/utils/geomath.js` — pure geospatial helpers
+  - [x] 2.1 Write `geomath.js` with all pure functions
     - Implement `haversine(a, b)` returning distance in meters between two `{lat, lng}` points
       using the standard Haversine formula
     - Implement `metersToLatOffset(meters)` = `meters / 111000`
@@ -62,8 +62,8 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
     - _Requirements: 7.5, 7.4, 7.2, 9.5, 5.6, 1.8; Validates: design Properties 1–3, 8, 9, 16, 17_
 
 
-- [ ] 3. Implement `src/utils/undoStack.js` — pure snapshot stack helpers
-  - [ ] 3.1 Write `undoStack.js`
+- [x] 3. Implement `src/utils/undoStack.js` — pure snapshot stack helpers
+  - [x] 3.1 Write `undoStack.js`
     - Implement `createStack()` returning `{ past: [], future: [] }`
     - Implement `push(stack, snapshot)` returning new stack with snapshot appended to `past` and
       `future` cleared
@@ -81,8 +81,8 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
       state S0; following with N redos returns the final pushed state
     - _Requirements: 10.3, 10.4; Validates: design Properties 10, 11_
 
-- [ ] 4. Implement `src/utils/courseSerializer.js` — GeoJSON round-trip
-  - [ ] 4.1 Write `courseSerializer.js`
+- [x] 4. Implement `src/utils/courseSerializer.js` — GeoJSON round-trip
+  - [x] 4.1 Write `courseSerializer.js`
     - Implement `serializeCourse(state)` converting a `CourseState` object into a GeoJSON
       FeatureCollection following the schema in the design (featureType: 'course_line', 'cone',
       'start_gate', 'start_gate_cone', 'finish_gate', 'finish_gate_cone', 'element',
@@ -142,8 +142,8 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
     - _Requirements: 8.3, 8.5, 8.8–8.15; Validates: design Property 7_
 
 
-- [ ] 6. Add pure helper modules for voting logic and course status transitions
-  - [ ] 6.1 Write `src/utils/votingHelpers.js`
+- [x] 6. Add pure helper modules for voting logic and course status transitions
+  - [x] 6.1 Write `src/utils/votingHelpers.js`
     - Implement `rankCourses(courses, votes)` that groups votes by courseId, counts them, merges
       vote counts onto course objects, then sorts by descending vote count (tie-break: earliest
       `createdAt`)
@@ -158,7 +158,7 @@ React Router v7. Test runner: Vitest. Property-based tests: fast-check. Export: 
     - **Property 15: Vote Ranking Sort Order** — `rankCourses(courses, votes)` is in non-increasing
       order of vote count
     - _Requirements: 13.2, 13.6; Validates: design Properties 14, 15_
-  - [ ] 6.3 Write `src/utils/courseStatusHelpers.js`
+  - [x] 6.3 Write `src/utils/courseStatusHelpers.js`
     - Implement `canTransition(currentStatus, nextStatus, actorRole)` returning true only for
       permitted transitions per the state machine table in the design:
       DRAFT→SUBMITTED (member/admin), SUBMITTED→APPROVED (admin), SUBMITTED→REJECTED (admin),

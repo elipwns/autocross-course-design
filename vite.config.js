@@ -18,5 +18,9 @@ export default defineConfig({
         '.js': 'jsx'
       }
     }
+  },
+  test: {
+    environment: 'jsdom',
+    globals: true
   }
 })
